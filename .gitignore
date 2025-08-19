@@ -1,0 +1,42 @@
+# Build results
+bin/
+obj/
+out/
+
+# Rider / JetBrains
+.idea/
+*.sln.iml
+
+# Visual Studio
+.vs/
+*.user
+*.rsuser
+*.suo
+
+# Logs
+*.log
+
+# OS / system files
+.DS_Store
+Thumbs.db
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+.nuget/
+
+# Test results
+TestResults/
+*.coverage
+*.coveragexml
+
+# Generated files
+*.lock.json
+project.lock.json
+
+# Dotnet tools
+.dotnet/
+
+# Env files (caso use configs locais)
+.env
