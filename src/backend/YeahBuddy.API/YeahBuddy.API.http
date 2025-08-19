@@ -1,0 +1,6 @@
+@YeahBuddy.API_HostAddress = http://localhost:5155
+
+GET {{YeahBuddy.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
