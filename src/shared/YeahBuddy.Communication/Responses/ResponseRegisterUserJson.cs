@@ -1,6 +1,6 @@
 namespace YeahBuddy.Communication.Responses;
 
-public class ResponsesRegisterUserJson
+public class ResponseRegisterUserJson
 {
     public string Name { get; set; } = string.Empty;
 }
