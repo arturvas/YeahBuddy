@@ -29,8 +29,8 @@ public class RegisterUserUseCase
 
         if (result.IsValid) return;
 
-        var errorMessages = string.Join("; ", result.Errors.Select(x => x.ErrorMessage));
+        var errorMessages = result.Errors.Select(x => x.ErrorMessage).ToList();
 
-        throw new YeahBuddyException();
+        throw new ErrorOnValidationException(errorMessages);
     }
 }

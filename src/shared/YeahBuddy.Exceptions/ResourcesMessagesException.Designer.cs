@@ -68,5 +68,11 @@ namespace YeahBuddy.Exceptions {
                 return ResourceManager.GetString("PASSWORD_EMPTY", resourceCulture);
             }
         }
+        
+        public static string UNKNOWN_ERROR {
+            get {
+                return ResourceManager.GetString("UNKNOWN_ERROR", resourceCulture);
+            }
+        }
     }
 }

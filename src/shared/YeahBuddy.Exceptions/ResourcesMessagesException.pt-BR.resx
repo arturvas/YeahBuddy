@@ -35,4 +35,7 @@
     <data name="PASSWORD_EMPTY" xml:space="preserve">
         <value>A senha deve conter mais caracteres.</value>
     </data>
+    <data name="UNKNOWN_ERROR" xml:space="preserve">
+        <value>Erro desconhecido.</value>
+    </data>
 </root>
