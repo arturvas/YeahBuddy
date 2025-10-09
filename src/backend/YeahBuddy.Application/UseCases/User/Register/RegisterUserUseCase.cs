@@ -1,3 +1,6 @@
+using AutoMapper;
+using YeahBuddy.Application.Services.AutoMapper;
+using YeahBuddy.Application.Services.Cryptography;
 using YeahBuddy.Communication.Requests;
 using YeahBuddy.Communication.Responses;
 using YeahBuddy.Exceptions.ExceptionsBase;
@@ -10,7 +13,11 @@ public class RegisterUserUseCase
     {
         ValidateRequest(request);
 
-        // TODO mapear a request em uma entidade
+        var autoMapper = new MapperConfiguration(options => { options.AddProfile(new AutoMapping()); }).CreateMapper();
+
+        var user = autoMapper.Map<Domain.Entities.User>(request);
+
+        var passwordHashing = new PasswordHasher();
 
         // TODO criptografar a senha
 
