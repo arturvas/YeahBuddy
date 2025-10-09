@@ -3,25 +3,28 @@ using YeahBuddy.Application.Services.AutoMapper;
 using YeahBuddy.Application.Services.Cryptography;
 using YeahBuddy.Communication.Requests;
 using YeahBuddy.Communication.Responses;
+using YeahBuddy.Domain.Repositories.User;
 using YeahBuddy.Exceptions.ExceptionsBase;
 
 namespace YeahBuddy.Application.UseCases.User.Register;
 
 public class RegisterUserUseCase
 {
-    public ResponseRegisterUserJson Execute(RequestRegisterUserJson request)
-    {
-        ValidateRequest(request);
+    private readonly IUserWriteOnlyRepository _userWriteOnlyRepository;
+    private readonly IUserReadOnlyRepository _userReadOnlyRepository;
 
+    public async Task<ResponseRegisterUserJson> Execute(RequestRegisterUserJson request)
+    {
+        var passwordHashing = new PasswordHasher();
         var autoMapper = new MapperConfiguration(options => { options.AddProfile(new AutoMapping()); }).CreateMapper();
+
+        ValidateRequest(request);
 
         var user = autoMapper.Map<Domain.Entities.User>(request);
 
-        var passwordHashing = new PasswordHasher();
+        user.Password = passwordHashing.Encrypt(request.Password);
 
-        // TODO criptografar a senha
-
-        // TODO salvar no banco de dados
+        await _userWriteOnlyRepository.Add(user);
 
         return new ResponseRegisterUserJson
         {
