@@ -1,5 +1,4 @@
 using AutoMapper;
-using YeahBuddy.Application.Services.AutoMapper;
 using YeahBuddy.Application.Services.Cryptography;
 using YeahBuddy.Communication.Requests;
 using YeahBuddy.Communication.Responses;
@@ -8,21 +7,30 @@ using YeahBuddy.Exceptions.ExceptionsBase;
 
 namespace YeahBuddy.Application.UseCases.User.Register;
 
-public class RegisterUserUseCase
+public class RegisterUserUseCase : IRegisterUserUseCase
 {
     private readonly IUserWriteOnlyRepository _userWriteOnlyRepository;
     private readonly IUserReadOnlyRepository _userReadOnlyRepository;
+    private readonly IMapper _mapper;
+    private readonly PasswordHasher _passwordHashing;
+
+    public RegisterUserUseCase(
+        IUserReadOnlyRepository userReadOnlyRepository,
+        IUserWriteOnlyRepository userWriteOnlyRepository, IMapper mapper, PasswordHasher passwordHashing)
+    {
+        _userReadOnlyRepository = userReadOnlyRepository;
+        _userWriteOnlyRepository = userWriteOnlyRepository;
+        _mapper = mapper;
+        _passwordHashing = passwordHashing;
+    }
 
     public async Task<ResponseRegisterUserJson> Execute(RequestRegisterUserJson request)
     {
-        var passwordHashing = new PasswordHasher();
-        var autoMapper = new MapperConfiguration(options => { options.AddProfile(new AutoMapping()); }).CreateMapper();
-
         ValidateRequest(request);
 
-        var user = autoMapper.Map<Domain.Entities.User>(request);
+        var user = _mapper.Map<Domain.Entities.User>(request);
 
-        user.Password = passwordHashing.Encrypt(request.Password);
+        user.Password = _passwordHashing.Encrypt(request.Password);
 
         await _userWriteOnlyRepository.Add(user);
 
