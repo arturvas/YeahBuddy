@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using YeahBuddy.Domain.Repositories.User;
 using YeahBuddy.Infrastructure.DataAccess;
@@ -8,15 +9,15 @@ namespace YeahBuddy.Infrastructure;
 
 public static class DependenceInjection
 {
-    public static void AddInfrastructure(this IServiceCollection services)
+    public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        AddDbContext_MySqlServer(services);
+        AddDbContext_MySqlServer(services, configuration);
         AddRepositories(services);
     }
 
-    private static void AddDbContext_MySqlServer(IServiceCollection services)
+    private static void AddDbContext_MySqlServer(IServiceCollection services, IConfiguration configuration)
     {
-        const string connectionString = "Server=127.0.0.1;Database=YeahBuddy;User Id=sa;Pwd={PWD};";
+        var connectionString = configuration.GetConnectionString("DefaultConnection");
         var serverVersion = new MySqlServerVersion(new Version(9, 4, 0));
 
         services.AddDbContext<YeahBuddyDbContext>(dbContextOptions =>
