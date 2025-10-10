@@ -4,6 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+      <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,6 +17,7 @@
     <ProjectReference Include="..\..\shared\YeahBuddy.Communication\YeahBuddy.Communication.csproj" />
     <ProjectReference Include="..\..\shared\YeahBuddy.Exceptions\YeahBuddy.Exceptions.csproj" />
     <ProjectReference Include="..\YeahBuddy.Application\YeahBuddy.Application.csproj" />
+      <ProjectReference Include="..\YeahBuddy.Infrastructure\YeahBuddy.Infrastructure.csproj"/>
   </ItemGroup>
 
 </Project>
