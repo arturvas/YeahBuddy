@@ -1,9 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using YeahBuddy.Domain.Repositories;
 using YeahBuddy.Domain.Repositories.User;
 using YeahBuddy.Infrastructure.DataAccess;
-using YeahBuddy.Infrastructure.DataAccess.Repositories;
+using UserRepository = YeahBuddy.Infrastructure.DataAccess.Repositories.UserRepository;
 
 namespace YeahBuddy.Infrastructure;
 
@@ -28,6 +29,7 @@ public static class DependenceInjection
 
     private static void AddRepositories(IServiceCollection services)
     {
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IUserReadOnlyRepository, UserRepository>();
         services.AddScoped<IUserWriteOnlyRepository, UserRepository>();
     }
