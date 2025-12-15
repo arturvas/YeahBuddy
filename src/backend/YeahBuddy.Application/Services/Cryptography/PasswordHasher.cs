@@ -3,12 +3,11 @@ using System.Text;
 
 namespace YeahBuddy.Application.Services.Cryptography;
 
-public class PasswordHasher
+public class PasswordHasher(string additionKey)
 {
     public string Encrypt(string password)
     {
-        const string additionalKey = "ARK";
-        var newPassword = password + additionalKey;
+        var newPassword = password + additionKey;
 
         var pwdBytes = Encoding.UTF8.GetBytes(newPassword);
         var hashBytes = SHA512.HashData(pwdBytes);
