@@ -8,7 +8,7 @@ using UserRepository = YeahBuddy.Infrastructure.DataAccess.Repositories.UserRepo
 
 namespace YeahBuddy.Infrastructure;
 
-public static class DependenceInjection
+public static class DependenceInjectionExtension
 {
     public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
