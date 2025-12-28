@@ -38,4 +38,7 @@
     <data name="UNKNOWN_ERROR" xml:space="preserve">
         <value>Erro desconhecido.</value>
     </data>
+    <data name="EMAIL_ALREADY_REGISTERED" xml:space="preserve">
+        <value>Este endereço de correio eletrónico já se encontra registado.</value>
+    </data>
 </root>

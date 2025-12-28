@@ -4,6 +4,7 @@ using YeahBuddy.Communication.Requests;
 using YeahBuddy.Communication.Responses;
 using YeahBuddy.Domain.Repositories;
 using YeahBuddy.Domain.Repositories.User;
+using YeahBuddy.Exceptions;
 using YeahBuddy.Exceptions.ExceptionsBase;
 
 namespace YeahBuddy.Application.UseCases.User.Register;
@@ -20,7 +21,7 @@ public class RegisterUserUseCase(
 
     public async Task<ResponseRegisterUserJson> Execute(RequestRegisterUserJson request)
     {
-        ValidateRequest(request);
+        await ValidateRequest(request);
 
         var user = mapper.Map<Domain.Entities.User>(request);
 
@@ -36,11 +37,15 @@ public class RegisterUserUseCase(
         };
     }
 
-    private static void ValidateRequest(RequestRegisterUserJson request)
+    private async Task ValidateRequest(RequestRegisterUserJson request)
     {
         var validator = new RegisterUserValidator();
-        var result = validator.Validate(request);
+        var result = await validator.ValidateAsync(request);
+        var emailExist = await _userReadOnlyRepository.ExistActiveUserWithEmail(request.Email);
 
+        if (emailExist)
+            result.Errors.Add(new FluentValidation.Results.ValidationFailure(string.Empty, ResourcesMessagesException.EMAIL_ALREADY_REGISTERED));
+        
         if (result.IsValid) return;
 
         var errorMessages = result.Errors.Select(x => x.ErrorMessage).ToList();

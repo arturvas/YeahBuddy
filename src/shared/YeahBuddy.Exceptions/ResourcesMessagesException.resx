@@ -38,4 +38,7 @@
     <data name="UNKNOWN_ERROR" xml:space="preserve">
         <value>Unknow error.</value>
     </data>
+    <data name="EMAIL_ALREADY_REGISTERED" xml:space="preserve">
+        <value>This email address is already registered.</value>
+    </data>
 </root>
