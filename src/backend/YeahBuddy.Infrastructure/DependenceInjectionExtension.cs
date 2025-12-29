@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using YeahBuddy.Domain.Repositories;
 using YeahBuddy.Domain.Repositories.User;
 using YeahBuddy.Infrastructure.DataAccess;
+using YeahBuddy.Infrastructure.Extensions;
 using UserRepository = YeahBuddy.Infrastructure.DataAccess.Repositories.UserRepository;
 
 namespace YeahBuddy.Infrastructure;
@@ -18,7 +19,7 @@ public static class DependenceInjectionExtension
 
     private static void AddDbContext_MySqlServer(IServiceCollection services, IConfiguration configuration)
     {
-        var connectionString = configuration.GetConnectionString("DefaultConnection");
+        var connectionString = configuration.ConnectionString();
         var serverVersion = new MySqlServerVersion(new Version(9, 4, 0));
 
         services.AddDbContext<YeahBuddyDbContext>(dbContextOptions =>
