@@ -1,15 +1,18 @@
 using System.Text.RegularExpressions;
 using Dapper;
+using FluentMigrator.Runner;
+using Microsoft.Extensions.DependencyInjection;
 using MySqlConnector;
 
 namespace YeahBuddy.Infrastructure.Migrations;
 
 public static partial class DatabaseMigration
 {
-    public static void Migrate(string connectionString)
+    public static void Migrate(string connectionString, IServiceProvider serviceProvider)
     {
         EnsureDatabaseCreated_MySql(connectionString);
-        
+        MigrateDatabase(serviceProvider);
+
     }
 
     private static void EnsureDatabaseCreated_MySql(string connectionString)
@@ -39,4 +42,13 @@ public static partial class DatabaseMigration
 
     [GeneratedRegex(@"^[a-zA-Z0-9_]+$")]
     private static partial Regex MyRegex();
+    
+    
+    private static void MigrateDatabase(IServiceProvider serviceProvider)
+    {
+        using var scope = serviceProvider.CreateScope();
+        var runner = scope.ServiceProvider.GetRequiredService<IMigrationRunner>();
+        runner.ListMigrations();
+        runner.MigrateUp();
+    }
 }
