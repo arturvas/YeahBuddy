@@ -40,5 +40,8 @@ void MigrateDatabase()
 {
     var connectionString = builder.Configuration.ConnectionString();
     
-    DatabaseMigration.Migrate(connectionString);
+    app.Logger.LogInformation("Database connection string: {connectionString}", connectionString);
+    var serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope();
+    
+    DatabaseMigration.Migrate(connectionString, serviceScope.ServiceProvider);
 }
